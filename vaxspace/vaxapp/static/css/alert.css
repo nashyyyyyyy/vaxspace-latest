@@ -1,0 +1,10 @@
+.success{
+    background-color:#0dbc79;
+    color:#fff;
+}
+
+.error{
+    background-color:crimson;
+    color:#fff;
+    width: 100%;
+}

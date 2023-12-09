@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>VAXSPACE</title>
+
+    <!-- Custom fonts for this template-->
+    <link href="{% static 'vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
+    <link
+        href="{% static 'https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i' %}"
+        rel="stylesheet">
+
+    <!-- Custom styles for this template-->
+    <link href="{% static 'css/sb-admin-2.min.css' %}" rel="stylesheet">
+    <link href="{% static 'css/alert.css' %}" rel="stylesheet">
+
+</head>
+
+<body class="bg-gradient-primary">
+    {% include 'vaxapp/messages.html' %}
+    <div class="container">
+
+        <div class="card o-hidden border-0 shadow-lg my-5">
+            <div class="card-body p-0">
+                <!-- Nested Row within Card Body -->
+                <div class="row">
+                    <div class="col-lg-5 d-none d-lg-block"><img style="width:max-content" src="{% static 'img/main.png' %}"></div>
+                    <div class="col-lg-7">
+                        <div class="p-5">
+                            <div class="text-center">
+                                <h1 class="h4 text-gray-900 mb-4"><strong>VACCINATION SCHEDULE</strong></h1>
+                            </div>
+                            <form method="POST" class="user" style="text-align:center;background-color:#eeeeee;opacity:90%;border-radius:5px;padding:10px">
+                                {% csrf_token %}
+                                <div class="form-group row text-gray-900">
+                                    <div style="text-align:center" class="row">
+                                        <div class="col">
+                                        <input type="hidden"  name="child_id" value="{{added.id}}" >
+                                        <input type="hidden"  name="brgy_id" value="{{added.address}}" >
+                                        <input type="hidden"  name="guardian_id" value="{{added.added_by.id }}" >
+
+                                    <h4>{{added.child_name}}<br><sup>Child's Name</sup></h4>
+                                    <hr class="sidebar-divider d-none d-md-block">
+                                    <h4>{{age_category}}<br><sup>Current age</sup></h4>
+                                    <hr class="sidebar-divider d-none d-md-block">
+                                    <h4>{{added.date_of_birth}}<br><sup>Date of birth</sup></h4>
+                                    <hr class="sidebar-divider d-none d-md-block">
+                                        <h4>{{added.birth_height}}<br><sup>Birth height</sup></h4>
+                                        <h4>{{added.birth_weight}}<br><sup>Birth weight</sup></h4>
+                                        <hr class="sidebar-divider d-none d-md-block">
+                                      
+                                    </div>
+                                    <div class="col bg-gradient-primary text-gray-100" style="border-radius:5px;">
+                                        <h3 class="text-gray-100">RECOMMENDED VACCINE</h3>
+                                        {% if vaccine_doses %}
+                                        <p>The following vaccines are being recommended:</p>
+                                        <ul>
+                                            {% for vaccine in vaccine_doses %}
+                                            <input type="hidden" name="vax_ids[]" value="{{ vaccine.id }}" required>
+                                            <li><strong>{{ vaccine.name }} : </strong>
+                                                {% if age.days >= vaccine.recommended_age1 and age.days <= vaccine.recommended_age1|add:5 %}
+                                                    {% if vaccine.dose1 %} First dose: &#x2713; 
+                                                    <input type='hidden' name="dose1" value="{{vaccine.dose1}}">
+                                                    {% endif %}
+                                                {% elif age.days >= vaccine.recommended_age2 and age.days <= vaccine.recommended_age2|add:5 %}
+                                                    {% if vaccine.dose2 %} Second dose: &#x2713; 
+                                                    <input type='hidden' name="dose2" value="{{vaccine.dose2}}">
+                                                    {% endif %}
+                                                    {% if not vaccine.dose2 and vaccine.dose1 %} First dose: &#x2713; {% endif %}
+                                                {% elif age.days >= vaccine.recommended_age3 and age.days <= vaccine.recommended_age3|add:5 %}
+                                                    {% if vaccine.dose3 %} Third dose: &#x2713;
+                                                    <input type='hidden' name="dose3" value="{{vaccine.dose3}}">
+                                                    {% endif %}
+                                                    {% if not vaccine.dose3 and vaccine.dose1 %} First dose: &#x2713; {% endif %}
+                                                {% endif %}
+                                            </li>
+                                        {% endfor %}
+                                        
+                                        
+                                            
+                                        </ul>
+                                        <input type="submit" class="btn btn-success mb-2" value="Add to schedule">
+                                        {% else %}
+                                            <p>No vaccine doses recommendation available for this age category.</p>
+                                        {% endif %}
+                                       
+                                    
+                                        <div class="text-center mb-2"> 
+                                            {% if user.is_superuser %}
+                                             <a href="{% url 'vaxapp:admin_tables' %}" class="btn btn-danger ">Cancel</a>
+                                            {% else %}
+                                            <a href="{% url 'vaxapp:tables' %}" class="btn btn-danger ">Cancel</a>
+                                            {% endif %}
+
+                                            
+                                        </div>
+
+                                       
+                                        
+                                    </div>
+                                </div>
+                           
+                                </div>
+                               
+                                
+                               
+                            </form>
+                            <hr>
+                        
+                           
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Bootstrap core JavaScript-->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="js/sb-admin-2.min.js"></script>
+
+    <!-- Bootstrap's built-in JS for dismissing alerts with fade -->
+<script src="{% static 'js/alert.js' %}"></script>
+
+</body>
+
+</html>

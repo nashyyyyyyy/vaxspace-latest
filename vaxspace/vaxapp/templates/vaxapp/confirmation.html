@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>VAXSPACE</title>
+
+    <!-- Custom fonts for this template-->
+    <link href="{% static 'vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
+    <link
+        href="{% static 'https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i' %}"
+        rel="stylesheet">
+
+    <!-- Custom styles for this template-->
+    <link href="{% static 'css/sb-admin-2.min.css' %}" rel="stylesheet">
+    <link href="{% static 'css/alert.css' %}" rel="stylesheet">
+
+</head>
+
+<body class="bg-gradient-primary">
+    {% include 'vaxapp/messages.html' %}
+    <div class="container">
+
+        <div class="card o-hidden border-0 shadow-lg my-5">
+            <div class="card-body p-0">
+                <!-- Nested Row within Card Body -->
+                <div class="row">
+                    <div class="col-lg-5 d-none d-lg-block"><img style="width:max-content" src="{% static 'img/main.png' %}"></div>
+                    <div class="col-lg-7">
+                        <div class="p-5">
+                            <div class="text-center">
+                                <h1 class="h4 text-gray-900 mb-4"><strong>CONFIRM VACCINATION</strong></h1>
+                            </div>
+                            <form method="POST" class="user" style="text-align:center;background-color:#eeeeee;opacity:90%;border-radius:5px;padding:10px">
+                                {% csrf_token %}
+                               
+                                    <div style="text-align:center" class="row">
+                                        <div class="col">
+                                        <input type="hidden"  name="child_id" value="{{confirm.child.id}}" >
+                                        <input type="hidden"  name="birthheight" value="{{confirm.child.birth_height}}" >
+                                        <input type="hidden"  name="birthweight" value="{{confirm.child.birth_weight}}" >
+                                        <input type="hidden"  name="vax_info" value="{{confirm.vaccine_info}}" >
+                                        <input type="hidden"  name="vaxdate" value="{{confirm.vax_date}}" >
+
+                                    <h4>{{confirm.child}}<br><sup>Child's Name</sup></h4>
+                                    <hr class="sidebar-divider d-none d-md-block">
+                                    <h5>{{confirm.vaccine_info}}<br><sup>Vaccines & Doses</sup></h5>
+                                    <hr class="sidebar-divider d-none d-md-block">
+                                    <h5>{{confirm.vax_date}}<br><sup>Vaccination date</sup></h5>
+                                    <hr class="sidebar-divider d-none d-md-block">
+                                        <sup>Birth height</sup><input type="text" name="b_height" placeholder="Previous height:{{confirm.child.birth_height}}cm" required>
+                                        <sup>Birth weight</sup><input type="text" name="b_weight" placeholder="Previous height:{{confirm.child.birth_weight}}lbs" required>
+                                        <hr class="sidebar-divider d-none d-md-block">
+                                      
+                                    </div>
+                                   
+                                </div>
+                                <br>
+                                
+                                <a href="{% url 'vaxapp:tables' %}" class="btn btn-danger ">Cancel</a>
+                                <input type="submit" class="btn btn-success" value="Save changes">
+                                </div>
+                               
+                                
+                               
+                            </form>
+                            <hr>
+                        
+                           
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Bootstrap core JavaScript-->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="js/sb-admin-2.min.js"></script>
+
+    <!-- Bootstrap's built-in JS for dismissing alerts with fade -->
+<script src="{% static 'js/alert.js' %}"></script>
+
+</body>
+
+</html>
